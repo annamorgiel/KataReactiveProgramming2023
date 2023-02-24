@@ -16,7 +16,7 @@ import com.example.katareactiveprogramming2023.ui.theme.KataReactiveProgramming2
 class MainActivity : ComponentActivity() {
 
     private val viewModel: MainViewModel by viewModels()
-    private val connectivityStatus = viewModel.isConnected.value.toString()
+    private val connectivityStatus = viewModel.isConnectedStateFlow.value.toString()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

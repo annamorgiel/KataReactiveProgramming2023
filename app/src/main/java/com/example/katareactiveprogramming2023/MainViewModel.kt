@@ -15,12 +15,12 @@ class MainViewModel(
     private val connectivity: ConnectivityObserver,
 ) : ViewModel() {
 
-    private val _isConnected = MutableStateFlow(true)
-    val isConnected: StateFlow<Boolean> = _isConnected.asStateFlow()
+    private val _isConnectedMutableStateFlow = MutableStateFlow(true)
+    val isConnectedStateFlow: StateFlow<Boolean> = _isConnectedMutableStateFlow.asStateFlow()
 
     init {
         connectivity.observe().onEach {
-            _isConnected.value = it
+            _isConnectedMutableStateFlow.value = it
         }.launchIn(viewModelScope)
     }
 }
