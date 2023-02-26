@@ -1,9 +1,10 @@
 package com.example.katareactiveprogramming2023
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -13,23 +14,30 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.katareactiveprogramming2023.ui.theme.KataReactiveProgramming2023Theme
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : ComponentActivity() {
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
-    private val connectivityStatusAsStateFlow = viewModel.isConnectedStateFlow.value.toString()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val connectivityStatusAsStateFlow = viewModel.isConnectedStateFlow.value.toString()
         setContent {
-            val connectivityStatusAsSharedFlowWithEmit = viewModel.isConnectedSharedFlowWithEmit.collectAsState(initial = false).value.toString()
-            val connectivityStatusAsSharedFlowWithTryEmit = viewModel.isConnectedSharedFlowWithTryEmit.collectAsState(initial = false).value.toString()
-
+            val connectivityStatusAsSharedFlowWithEmit =
+                viewModel.isConnectedSharedFlowWithEmit.collectAsState(initial = false).value.toString()
+            val connectivityStatusAsSharedFlowWithTryEmit =
+                viewModel.isConnectedSharedFlowWithTryEmit.collectAsState(initial = false).value.toString()
             KataReactiveProgramming2023Theme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting(connectivityStatusAsStateFlow, connectivityStatusAsSharedFlowWithEmit, connectivityStatusAsSharedFlowWithTryEmit)
+                    Greeting(
+                        connectivityStatusAsStateFlow,
+                        connectivityStatusAsSharedFlowWithEmit,
+                        connectivityStatusAsSharedFlowWithTryEmit
+                    )
                 }
             }
         }
@@ -43,19 +51,21 @@ fun Greeting(
     connectivityStatusAsSharedFlowWithTryEmit: String,
     modifier: Modifier = Modifier
 ) {
-    Text(
-        text = "connectivityStatusAsStateFlowFromStateFlow: $connectivityStatusAsStateFlowFromStateFlow!",
-        modifier = modifier
-    )
+    Column {
+        Text(
+            text = "connectivityStatusAsStateFlowFromStateFlow: $connectivityStatusAsStateFlowFromStateFlow!",
+            modifier = modifier
+        )
 
-    Text(
-        text = "connectivityStatusAsSharedFlowWithEmit: $connectivityStatusAsSharedFlowWithEmit!",
-        modifier = modifier
-    )
-    Text(
-        text = "connectivityStatusAsSharedFlowWithTryEmit: $connectivityStatusAsSharedFlowWithTryEmit!",
-        modifier = modifier
-    )
+        Text(
+            text = "connectivityStatusAsSharedFlowWithEmit: $connectivityStatusAsSharedFlowWithEmit!",
+            modifier = modifier
+        )
+        Text(
+            text = "connectivityStatusAsSharedFlowWithTryEmit: $connectivityStatusAsSharedFlowWithTryEmit!",
+            modifier = modifier
+        )
+    }
 }
 
 @Preview(showBackground = true)
